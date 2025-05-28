@@ -1,5 +1,9 @@
+<p align="center">
+<img src="./logotipo/LogoCuidAr.png" alt="Logo de CuidAr" width="200"/>
+
 🤝CuidAr
 Plataforma que conecta familias con trabajadores/as del cuidado en Olavarría
+
 🌐 CuidAr es una aplicación web que conecta cuidadores/as con familias que necesitan servicios de cuidado en la ciudad de Olavarría, facilitando la búsqueda, contratación y gestión de estos servicios de forma confiable, accesible y segura.
 
 🩹Objetivo del Proyecto
