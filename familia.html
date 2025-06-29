@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuidAR - Familia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="gradient-bg min-h-screen">
+    <header class="glass border-bottom border-white/20 shadow-sm">
+        <div class="container-fluid max-w-7xl mx-auto px-4">
+            <div class="d-flex justify-content-between align-items-center" style="height: 4rem;">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center rounded-xl me-3 corazon" style="width: 2.5rem; height: 2.5rem;">
+                        <i data-lucide="heart" class="text-white" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h1 class="h3 fw-bold text-gray-900 mb-0">CuidAR</h1>
+                </div>
+                
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="text-end me-3">
+                            <p id="userFullName" class="small fw-medium text-gray-900 mb-0"></p>
+                            <p id="userRole" class="badge small"></p>
+                        </div>
+                        <button
+                            id="logoutButton"
+                            class="btn d-flex align-items-center text-muted"
+                            title="Cerrar sesión"
+                            style="background: none; border: none;"
+                        >
+                            <i data-lucide="log-out" style="width: 1.25rem; height: 1.25rem;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container-fluid max-w-7xl mx-auto px-4 py-4">
+        <div class="mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <div class="bg-blue-100 rounded-xl d-flex align-items-center justify-content-center me-3" style="width: 3rem; height: 3rem;">
+                    <i data-lucide="users" class="text-blue-600" style="width: 1.5rem; height: 1.5rem;"></i>
+                </div>
+                <div>
+                    <h2 class="display-6 fw-bold text-gray-900 mb-0">Panel de Familia</h2>
+                    <p class="text-gray-600 mb-0">Encuentra cuidadores calificados para tus seres queridos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass rounded-2xl p-4 text-center">
+            <div class="max-w-md mx-auto">
+                <div class="d-flex align-items-center justify-content-center rounded-2xl mx-auto mb-4 corazon" style="width: 4rem; height: 4rem;">
+                    <i data-lucide="construction" class="text-white" style="width: 2rem; height: 2rem;"></i>
+                </div>
+                <h3 class="h3 fw-bold text-gray-900 mb-3">Sitio en Construcción</h3>
+                <p class="text-gray-600 mb-4">El panel de familia está en construcción. Pronto podrás encontrar cuidadores calificados y gestionar las solicitudes de cuidado de manera completa.</p>
+                <div class="d-flex align-items-center justify-content-center text-muted small mb-4">
+                    <i data-lucide="clock" class="me-2" style="width: 1rem; height: 1rem;"></i>
+                    <span>Disponible próximamente</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html> 
