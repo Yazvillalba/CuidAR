@@ -186,17 +186,17 @@
 }
 
 
-.badge-admin {
+.rolColor-admin {
     background-color: #fee2e2;
     color: #dc2626;
 }
 
-.badge-caregiver {
+.rolColor-worker {
     background-color: #dcfce7;
     color: #16a34a;
 }
 
-.badge-family {
+.rolColor-family {
     background-color: #dbeafe;
     color: #2563eb;
 } 
