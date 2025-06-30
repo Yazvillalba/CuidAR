@@ -16,7 +16,8 @@ function loadUsersFromStorage() {
                 lastName: 'Sistema',
                 role: 'admin',
                 email: 'admin@cuidar.com',
-                status: 'active'
+                status: 'active',
+                image: 'Imagenes/Admin.png'
             },
             {
                 username: 'cuidador1',
@@ -25,7 +26,8 @@ function loadUsersFromStorage() {
                 lastName: 'González',
                 role: 'worker',
                 email: 'maria@cuidar.com',
-                status: 'active'
+                status: 'active',
+                image: 'Imagenes/Trabajador.jpg'
             },
             {
                 username: 'cuidador2',
@@ -34,7 +36,8 @@ function loadUsersFromStorage() {
                 lastName: 'López',
                 role: 'worker',
                 email: 'ana@cuidar.com',
-                status: 'inactive'
+                status: 'inactive',
+                image: 'Imagenes/Trabajadora1.avif'
             },
             {
                 username: 'familia1',
@@ -43,7 +46,8 @@ function loadUsersFromStorage() {
                 lastName: 'Rodríguez',
                 role: 'family',
                 email: 'carlos@cuidar.com',
-                status: 'active'
+                status: 'active',
+                image: 'Imagenes/Familia.jpg'
             },
             {
                 username: 'familia3',
@@ -52,7 +56,8 @@ function loadUsersFromStorage() {
                 lastName: 'Pérez',
                 role: 'family',
                 email: 'roberto@cuidar.com',
-                status: 'inactive'
+                status: 'inactive',
+                image: 'Imagenes/familia2.jpg'
             }
         ];
         // Guardar los datos iniciales en localStorage
