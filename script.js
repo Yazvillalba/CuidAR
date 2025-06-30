@@ -273,10 +273,10 @@ function generateUsersTable() {
             </td>
             <td class="px-4 py-4">
                 <div class="d-flex gap-2">
-                    <button class="btn btn-sm text-sky-600 p-1" title="Editar">
+                    <button class="btn btn-sm text-sky-600 p-1 edit-user-btn" title="Editar" data-username="${user.username}">
                         <i data-lucide="edit" style="width: 1rem; height: 1rem;"></i>
                     </button>
-                    <button class="btn btn-sm text-red-600 p-1" title="Eliminar">
+                    <button class="btn btn-sm text-red-600 p-1 delete-user-btn" title="Eliminar" data-username="${user.username}">
                         <i data-lucide="trash-2" style="width: 1rem; height: 1rem;"></i>
                     </button>
                 </div>
@@ -287,6 +287,9 @@ function generateUsersTable() {
     
     // Recrear los iconos de Lucide
     lucide.createIcons();
+    
+    // Agregar event listeners a los botones de editar y eliminar
+    addTableEventListeners();
 }
 
 // Función para actualizar las estadísticas del dashboard
@@ -445,6 +448,12 @@ function setupModalEventListeners() {
     if (createUserForm) {
         createUserForm.addEventListener('submit', handleCreateUser);
     }
+    
+    // Event listener para el formulario de editar usuario
+    const editUserForm = document.getElementById('editUserForm');
+    if (editUserForm) {
+        editUserForm.addEventListener('submit', handleEditUser);
+    }
 }
 
 // limpiar datos de localStorage
@@ -455,4 +464,160 @@ function clearLocalStorage() {
     localStorage.removeItem('userRole');
     // Recargar la página para aplicar los cambios
     window.location.reload();
+}
+
+// Función para agregar event listeners a los botones de la tabla
+function addTableEventListeners() {
+    // Event listeners para botones de editar
+    document.querySelectorAll('.edit-user-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const username = this.getAttribute('data-username');
+            openEditUserModal(username);
+        });
+    });
+    
+    // Event listeners para botones de eliminar
+    document.querySelectorAll('.delete-user-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const username = this.getAttribute('data-username');
+            openDeleteUserModal(username);
+        });
+    });
+}
+
+// Función para abrir modal de editar usuario
+function openEditUserModal(username) {
+    const user = users.find(u => u.username === username);
+    if (!user) {
+        showAlert('error', 'Error', 'Usuario no encontrado');
+        return;
+    }
+    
+    // Llenar el formulario con los datos del usuario
+    document.getElementById('editOriginalUsername').value = user.username;
+    document.getElementById('editUsername').value = user.username;
+    document.getElementById('editEmail').value = user.email;
+    document.getElementById('editFirstName').value = user.firstName;
+    document.getElementById('editLastName').value = user.lastName;
+    document.getElementById('editRole').value = user.role;
+    document.getElementById('editPassword').value = ''; // Dejar vacío para mantener la contraseña actual
+    document.getElementById('editStatus').value = user.status;
+    
+    // Abrir el modal
+    const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+    modal.show();
+}
+
+// Función para manejar la edición de usuarios
+function handleEditUser(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    const originalUsername = formData.get('originalUsername');
+    const updatedUser = {
+        username: formData.get('username'),
+        email: formData.get('email'),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        role: formData.get('role'),
+        status: formData.get('status')
+    };
+    
+    // Si se proporcionó una nueva contraseña, actualizarla
+    const newPassword = formData.get('password');
+    if (newPassword && newPassword.trim() !== '') {
+        updatedUser.password = newPassword;
+    } else {
+        // Mantener la contraseña actual
+        const currentUser = users.find(u => u.username === originalUsername);
+        if (currentUser) {
+            updatedUser.password = currentUser.password;
+        }
+    }
+    
+    // Verificar si el nuevo nombre de usuario ya existe (si cambió)
+    if (originalUsername !== updatedUser.username) {
+        const existingUser = users.find(u => u.username === updatedUser.username);
+        if (existingUser) {
+            showAlert('error', 'Error', 'El nombre de usuario ya existe');
+            return;
+        }
+    }
+    
+    // Encontrar y actualizar el usuario
+    const userIndex = users.findIndex(u => u.username === originalUsername);
+    if (userIndex !== -1) {
+        users[userIndex] = updatedUser;
+        
+        // Guardar en localStorage
+        saveUsersToStorage();
+        
+        // Cerrar modal y limpiar formulario
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+        modal.hide();
+        form.reset();
+        
+        // Actualizar la interfaz
+        updateDashboardStats();
+        generateUsersTable();
+        
+        showAlert('success', 'Usuario Actualizado', 'El usuario ha sido actualizado exitosamente');
+    } else {
+        showAlert('error', 'Error', 'Usuario no encontrado');
+    }
+}
+
+// Función para abrir modal de confirmación de eliminación
+function openDeleteUserModal(username) {
+    const user = users.find(u => u.username === username);
+    if (!user) {
+        showAlert('error', 'Error', 'Usuario no encontrado');
+        return;
+    }
+    
+    // Mostrar el nombre del usuario en el modal
+    document.getElementById('deleteUserName').textContent = `${user.firstName} ${user.lastName} (${user.username})`;
+    
+    // Configurar el botón de confirmación
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    confirmBtn.onclick = function() {
+        deleteUser(username);
+    };
+    
+    // Abrir el modal
+    const modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+    modal.show();
+}
+
+// Función para eliminar usuario
+function deleteUser(username) {
+    // Verificar que no se elimine el usuario actual
+    const currentUsername = localStorage.getItem('username');
+    if (username === currentUsername) {
+        showAlert('error', 'Error', 'No puedes eliminar tu propia cuenta');
+        return;
+    }
+    
+    // Encontrar y eliminar el usuario
+    const userIndex = users.findIndex(u => u.username === username);
+    if (userIndex !== -1) {
+        const deletedUser = users[userIndex];
+        users.splice(userIndex, 1);
+        
+        // Guardar en localStorage
+        saveUsersToStorage();
+        
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteUserModal'));
+        modal.hide();
+        
+        // Actualizar la interfaz
+        updateDashboardStats();
+        generateUsersTable();
+        
+        showAlert('success', 'Usuario Eliminado', `El usuario ${deletedUser.firstName} ${deletedUser.lastName} ha sido eliminado exitosamente`);
+    } else {
+        showAlert('error', 'Error', 'Usuario no encontrado');
+    }
 }
