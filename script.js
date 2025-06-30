@@ -1,55 +1,76 @@
-// Datos de usuarios
-const users = [
-    {
-        username: 'admin',
-        password: 'admin123',
-        firstName: 'Administrador',
-        lastName: 'Sistema',
-        role: 'admin',
-        email: 'admin@cuidar.com',
-        status: 'active'
-    },
-    {
-        username: 'cuidador1',
-        password: 'cuidador123',
-        firstName: 'María',
-        lastName: 'González',
-        role: 'worker',
-        email: 'maria@cuidar.com',
-        status: 'active'
-    },
-    {
-        username: 'cuidador2',
-        password: 'cuidador456',
-        firstName: 'Ana',
-        lastName: 'López',
-        role: 'worker',
-        email: 'ana@cuidar.com',
-        status: 'inactive'
-    },
-    {
-        username: 'familia1',
-        password: 'familia123',
-        firstName: 'Carlos',
-        lastName: 'Rodríguez',
-        role: 'family',
-        email: 'carlos@cuidar.com',
-        status: 'active'
-    },
-    {
-        username: 'familia3',
-        password: 'familia789',
-        firstName: 'Roberto',
-        lastName: 'Pérez',
-        role: 'family',
-        email: 'roberto@cuidar.com',
-        status: 'inactive'
+// Datos de usuarios - Ahora se cargan desde localStorage
+let users = [];
+
+// Función para cargar usuarios desde localStorage
+function loadUsersFromStorage() {
+    const storedUsers = localStorage.getItem('cuidarUsers');
+    if (storedUsers) {
+        users = JSON.parse(storedUsers);
+    } else {
+        // Datos iniciales por defecto
+        users = [
+            {
+                username: 'admin',
+                password: 'admin123',
+                firstName: 'Administrador',
+                lastName: 'Sistema',
+                role: 'admin',
+                email: 'admin@cuidar.com',
+                status: 'active'
+            },
+            {
+                username: 'cuidador1',
+                password: 'cuidador123',
+                firstName: 'María',
+                lastName: 'González',
+                role: 'worker',
+                email: 'maria@cuidar.com',
+                status: 'active'
+            },
+            {
+                username: 'cuidador2',
+                password: 'cuidador456',
+                firstName: 'Ana',
+                lastName: 'López',
+                role: 'worker',
+                email: 'ana@cuidar.com',
+                status: 'inactive'
+            },
+            {
+                username: 'familia1',
+                password: 'familia123',
+                firstName: 'Carlos',
+                lastName: 'Rodríguez',
+                role: 'family',
+                email: 'carlos@cuidar.com',
+                status: 'active'
+            },
+            {
+                username: 'familia3',
+                password: 'familia789',
+                firstName: 'Roberto',
+                lastName: 'Pérez',
+                role: 'family',
+                email: 'roberto@cuidar.com',
+                status: 'inactive'
+            }
+        ];
+        // Guardar los datos iniciales en localStorage
+        saveUsersToStorage();
     }
-];
+}
+
+// Función para guardar usuarios en localStorage
+function saveUsersToStorage() {
+    localStorage.setItem('cuidarUsers', JSON.stringify(users));
+}
 
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Cargar usuarios desde localStorage al inicio
+    loadUsersFromStorage();
+    
     // Verificar si el usuario está logueado
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const currentPage = window.location.pathname.split('/').pop();
@@ -98,20 +119,10 @@ function setupLoginEvents() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // Credenciales demo
-            const validCredentials = [
-                { username: 'admin', password: 'admin123', role: 'admin' },
-                { username: 'cuidador1', password: 'cuidador123', role: 'worker' },
-                { username: 'cuidador2', password: 'cuidador456', role: 'worker' },
-                { username: 'familia1', password: 'familia123', role: 'family' },
-                { username: 'familia3', password: 'familia789', role: 'family' }
-            ];
+            // Buscar usuario en la lista de usuarios cargada desde localStorage
+            const user = users.find(u => u.username === username && u.password === password);
             
-            const user = validCredentials.find(cred => 
-                cred.username === username && cred.password === password
-            );
-            
-            if (user) {
+            if (user && user.status === 'active') {
                 // Guardar estado de login
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('username', username);
@@ -125,6 +136,9 @@ function setupLoginEvents() {
                 } else if (user.role === 'family') {
                     window.location.href = 'familia.html';
                 }
+            } else if (user && user.status === 'inactive') {
+                loginError.textContent = 'Tu cuenta está desactivada. Contacta al administrador.';
+                loginError.classList.remove('hidden');
             } else {
                 loginError.textContent = 'Usuario o contraseña incorrectos';
                 loginError.classList.remove('hidden');
@@ -252,7 +266,8 @@ function generateUsersTable() {
                 <span class="badge ${rolColorClass} small">${roleText}</span>
             </td>
             <td class="px-4 py-4">
-                <button class="btn btn-sm ${userStatus.class} rounded-pill small fw-semibold">
+                <button class="btn btn-sm ${userStatus.class} rounded-pill small fw-semibold" 
+                        onclick="toggleUserStatus('${user.username}')">
                     ${userStatus.text}
                 </button>
             </td>
@@ -301,6 +316,7 @@ function initializeAdminPage() {
     if (window.location.pathname.includes('admin.html')) {
         updateDashboardStats();
         generateUsersTable();
+        setupModalEventListeners();
     }
 }
 
@@ -327,4 +343,116 @@ function switchTab(tabId) {
 function openCreateUserModal() {
     const modal = new bootstrap.Modal(document.getElementById('createUserModal'));
     modal.show();
-} 
+}
+
+
+// Función para manejar la creación de usuarios
+function handleCreateUser(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    const newUser = {
+        username: formData.get('username'),
+        password: formData.get('password'),
+        email: formData.get('email'),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        role: formData.get('role'),
+        status: 'active'
+    };
+    
+    // Verificar si el usuario ya existe
+    const existingUser = users.find(u => u.username === newUser.username);
+    if (existingUser) {
+        showAlert('error', 'Error', 'El nombre de usuario ya existe');
+        return;
+    }
+    
+    // Agregar el nuevo usuario
+    users.push(newUser);
+    
+    // Guardar en localStorage
+    saveUsersToStorage();
+    
+    // Cerrar modal y limpiar formulario
+    const modal = bootstrap.Modal.getInstance(document.getElementById('createUserModal'));
+    modal.hide();
+    form.reset();
+    
+    // Actualizar la interfaz
+    updateDashboardStats();
+    generateUsersTable();
+    
+    showAlert('success', 'Usuario Creado', 'El nuevo usuario ha sido creado exitosamente');
+}
+
+// Función para cambiar el estado del usuario (activo/inactivo)
+function toggleUserStatus(userId) {
+    const user = users.find(u => u.username === userId);
+    if (user) {
+        user.status = user.status === 'active' ? 'inactive' : 'active';
+        
+        // Guardar en localStorage
+        saveUsersToStorage();
+        
+        updateDashboardStats();
+        generateUsersTable();
+        const status = user.status === 'active' ? 'activado' : 'desactivado';
+        showAlert('info', 'Estado Cambiado', `El usuario ha sido ${status} correctamente`);
+    }
+}
+
+// Función para mostrar alertas personalizadas
+function showAlert(type, title, message, duration = 5000) {
+    const alertId = 'alert-' + Date.now();
+    const iconMap = {
+        success: 'check-circle',
+        error: 'x-circle',
+        warning: 'alert-triangle',
+        info: 'info'
+    };
+    
+    const alertHTML = `
+        <div id="${alertId}" class="alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed" 
+             style="top: 20px; right: 20px; z-index: 9999; max-width: 400px;">
+            <div class="d-flex align-items-center">
+                <i data-lucide="${iconMap[type]}" class="me-2" style="width: 1rem; height: 1rem;"></i>
+                <strong>${title}</strong>
+            </div>
+            <p class="mb-0 mt-1">${message}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', alertHTML);
+    lucide.createIcons();
+    
+    // Eliminar alert tras 5 segundos
+    setTimeout(() => {
+        const alert = document.getElementById(alertId);
+        if (alert) {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }
+    }, duration);
+}
+
+// Función para configurar los event listeners de los modales
+function setupModalEventListeners() {
+    // Event listener para el formulario de crear usuario
+    const createUserForm = document.getElementById('createUserForm');
+    if (createUserForm) {
+        createUserForm.addEventListener('submit', handleCreateUser);
+    }
+}
+
+// limpiar datos de localStorage
+function clearLocalStorage() {
+    localStorage.removeItem('cuidarUsers');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userRole');
+    // Recargar la página para aplicar los cambios
+    window.location.reload();
+}
