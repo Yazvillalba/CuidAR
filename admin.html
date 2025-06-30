@@ -199,6 +199,88 @@
         </div>
     </div>
 
+
+    <div id="editUserModal" class="modal fade" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass rounded-2xl shadow-xl">
+                <div class="modal-header border-bottom border-gray-200">
+                    <h5 class="modal-title fw-semibold text-gray-900" id="editUserModalLabel">Editar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm" class="space-y-4">
+                        <input type="hidden" name="originalUsername" id="editOriginalUsername">
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Nombre de Usuario</label>
+                            <input type="text" name="username" id="editUsername" class="form-control border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Email</label>
+                            <input type="email" name="email" id="editEmail" class="form-control border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Nombre</label>
+                            <input type="text" name="firstName" id="editFirstName" class="form-control border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Apellido</label>
+                            <input type="text" name="lastName" id="editLastName" class="form-control border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Rol</label>
+                            <select name="role" id="editRole" class="form-select border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                                <option value="">Seleccionar rol</option>
+                                <option value="admin">Administrador</option>
+                                <option value="worker">Cuidador</option>
+                                <option value="family">Familia</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Nueva Contraseña (dejar vacío para mantener la actual)</label>
+                            <input type="password" name="password" id="editPassword" class="form-control border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium text-gray-700">Estado</label>
+                            <select name="status" id="editStatus" class="form-select border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                                <option value="active">Activo</option>
+                                <option value="inactive">Inactivo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-top border-gray-200">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="editUserForm" class="btn btn-gradient text-white rounded-xl">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="deleteUserModal" class="modal fade" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass rounded-2xl shadow-xl">
+                <div class="modal-header border-bottom border-gray-200">
+                    <h5 class="modal-title fw-semibold text-gray-900" id="deleteUserModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="bg-red-100 p-3 rounded-xl d-inline-block mb-3">
+                            <i data-lucide="alert-triangle" class="text-red-600" style="width: 2rem; height: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold text-gray-900 mb-2">¿Estás seguro de que quieres eliminar este usuario?</h6>
+                        <p class="text-gray-600 mb-0">Esta acción no se puede deshacer. El usuario <strong id="deleteUserName"></strong> será eliminado permanentemente.</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-gray-200">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="confirmDeleteBtn" class="btn btn-danger text-white rounded-xl">Eliminar Usuario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
    
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
