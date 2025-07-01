@@ -45,10 +45,10 @@ CuidAr (https://drive.google.com/drive/folders/1bXD_jtYlJaYIopFeG1PJpgoLuDDalNpC
 🎨Diseño
 
 Paleta de colores que transmite profesionalismo, cuidado y calidez:
-- Verde (bienestar)
-- Naranja / amarillo (energía, cercanía)
-- Beige o azul (confianza, suavidad)
+- Azul y Verde (transmiten bienestar/salud y confianza)
 - Fondo Blanco, estilo limpio y moderno
+- En caso de necesitar agregar algún color extra: transición Naranja-amarillo (transmite energía, cercanía)
+
 
 ⌛Estado del Proyecto
 
@@ -58,3 +58,13 @@ Paleta de colores que transmite profesionalismo, cuidado y calidez:
 - [x] Trello configurando con épicas e historias  
 - [x] Diseño de pantallas en proceso (Figma)  
 - [ ] Desarrollo frontend y backend (en proceso)
+
+Fuera del Scope: 
+- Pagos y transacciones dentro de la plataforma
+- Validación legal o certificación de cuidadores/as (si bien intentaremos que exista la posibilidad de adjuntar certificaciones de estudios, será a través del usuario administrador y no mediante conexión con bases de datos de los organismos que emiten títulos, por ejemplo)
+- Soporte multilingüe: La plataforma solo estará disponible en español, sin soporte para otros idiomas.
+- Sistema de mensajería interna en tiempo real: No se incluye un chat en tiempo real entre usuarios, solo contacto directo a través de los datos proporcionados.
+- Automatización de notificaciones por SMS o WhatsApp: Las notificaciones automáticas por SMS o WhatsApp no están incluidas, solo notificaciones dentro de la plataforma.
+Integración con sistemas externos de salud o seguros:
+- No se prevé la integración con sistemas de salud, seguros médicos o bases de datos externas.
+- No se prevé la geolocalización de usuarios para esta versión (para conectar solicitudes y ofertas por cercanía). 
