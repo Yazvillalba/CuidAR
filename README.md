@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./logotipo/LogoCuidAr.png" alt="Logo de CuidAr" width="200"/>
+<img src="./Logo_Cuidar.png" alt="Logo de CuidAr" width="200"/>
 
 🤝CuidAr
 Plataforma que conecta familias con trabajadores/as del cuidado en Olavarría
