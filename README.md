@@ -37,10 +37,10 @@ CuidAr (https://drive.google.com/drive/folders/1bXD_jtYlJaYIopFeG1PJpgoLuDDalNpC
 
 ✅Organización y Herramientas
 
-- Gestión de tareas y épicas:Jira Software
-- Diseño de interfaz: Figma
-- Documentación: Google Drive (Docs)
-- Repositorio: GitHub
+- Gestión de tareas y épicas: Trello (https://trello.com/b/ZNj5aHQ2/desarrollo-app-cuidar)
+- Diseño de interfaz: Figma (https://www.figma.com/design/n7fBJWgbYiDpd4pc6nI52y/CuidAr-app?node-id=3-2&t=Z0Me0dakAtT6gTNn-0)
+- Documentación: Google Drive - Docs (https://drive.google.com/drive/folders/1bXD_jtYlJaYIopFeG1PJpgoLuDDalNpC)
+- Repositorio: GitHub (https://github.com/Yazvillalba/CuidAR)
 
 🎨Diseño
 
@@ -55,6 +55,6 @@ Paleta de colores que transmite profesionalismo, cuidado y calidez:
 - [x] Idea general y funcionalidades documentadas  
 - [x] Alcance y fuera de scope definidos  
 - [x] Especificaciones técnicas preliminares  
-- [x] Jira configurando con épicas e historias  
-- [ ] Diseño de pantallas en proceso (Figma)  
-- [ ] Desarrollo frontend y backend
+- [x] Trello configurando con épicas e historias  
+- [x] Diseño de pantallas en proceso (Figma)  
+- [ ] Desarrollo frontend y backend (en proceso)
